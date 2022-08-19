@@ -35,11 +35,7 @@ headers={
 }
 params={
     "message":sys.argv[1],
-    "content":trans_base64(filedata),
-    "commiter":{
-        "name":USERNAME,
-        "email":"hbxxsylbeifen1@126.com"
-    }
+    "content":trans_base64(filedata)
 }
 if sha:
     params["sha"]=sha
