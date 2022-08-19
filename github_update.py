@@ -24,7 +24,7 @@ def get_sha(url:str)->str:
     return t if t is not None else ''
 print('reading file...')
 filedata=b''
-with open(filename,'rb') as f:
+with open(sys.argv[1],'rb') as f:
     filedata=f.read()
 api=get_url(USERNAME,REPO,filename)
 print('getting blob sha')
@@ -46,3 +46,5 @@ if sha:
 print('creating/updating file')
 res=requests.put(api,data=json.dumps(params),headers=headers)
 print("success" if res.ok else "failed")
+if res.ok:
+    print(f'see file at {USERNAME}.github.io/{REPO}/{filename}')
