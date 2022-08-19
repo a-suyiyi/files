@@ -3,10 +3,8 @@ import base64
 import os
 import json
 import sys
-os.system('python -m pip install --upgrade pip')
-# os.system('pip install --upgrade requests')
 import requests
-if sys.argv.__len__()<2:
+if len(sys.argv)<2:
     exit(0)
 USERNAME='a-suyiyi'
 REPO='files'
@@ -17,13 +15,6 @@ def get_url(username:str, reponame:str, filename:str)->str:
     return api_url%(username,reponame,filename)
 def trans_base64(data:bytes):
     return base64.b64encode(data).decode('utf-8')
-'''
-{
-  "message": "提交说明",
-  "content": "base64编码的文件内容",
-  "sha": "文件的blob sha"
-}
-'''
 def get_sha(url:str)->str:
     res=requests.get(url)
     if not res.ok:
@@ -31,11 +22,12 @@ def get_sha(url:str)->str:
     d=json.loads(res.content)
     t=d.get('sha')
     return t if t is not None else ''
+print('reading file...')
 filedata=b''
 with open(filename,'rb') as f:
     filedata=f.read()
 api=get_url(USERNAME,REPO,filename)
-print(api)
+print('getting blob sha')
 sha=get_sha(api)
 headers={
     "Accept":"application/vnd.github+json",
@@ -51,5 +43,6 @@ params={
 }
 if sha:
     params["sha"]=sha
+print('creating/updating file')
 res=requests.put(api,data=json.dumps(params),headers=headers)
-print(res.status_code)
+print("success" if res.ok else "failed")
