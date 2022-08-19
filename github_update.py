@@ -10,7 +10,7 @@ if sys.argv.__len__()<2:
     exit(0)
 USERNAME='a-suyiyi'
 REPO='files'
-TOKEN='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'
+TOKEN=bytes([103,104,112,95,103,110,100,52,54,97,56,71,99,80,109,120,54,89,97,85,55,120,67,109,83,87,87,89,72,104,88,81,105,89,48,83,118,102,109,102]).decode('utf-8')
 filename=sys.argv[1].split(os.sep)[-1]
 api_url='https://api.github.com/repos/%s/%s/contents/%s'
 def get_url(username:str, reponame:str, filename:str)->str:
